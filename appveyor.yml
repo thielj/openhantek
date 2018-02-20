@@ -1,3 +1,16 @@
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+ 
+  # blacklist
+  except:
+    - gh-pages
+
+# Do not build on tags (GitHub and BitBucket)
+skip_tags: true
+
 platform:
   - x64
 
