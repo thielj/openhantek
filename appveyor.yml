@@ -38,7 +38,7 @@ build_script:
 artifacts:
 
   - path: build\openhantek\$(configuration)
-    name: zipped
+    name: OpenHantek_jt-$(platform)-$(APPVEYOR_REPO_COMMIT_TIMESTAMP).zip
     type: zip
 
   - path: build\packages\*.exe
@@ -47,14 +47,14 @@ artifacts:
 # User "ci-openhantek". Uses a appveyor encrypted github access token for that user.
 deploy:
   - provider: GitHub
-    artifact: zipped
-    release: openhantek-$(platform)-$(APPVEYOR_BUILD_NUMBER)
-    description: 'OpenHantek Windows Build'    
+    artifact: OpenHantek_jt-$(platform)-$(APPVEYOR_REPO_COMMIT_TIMESTAMP).zip
+    release: OpenHantek_jt-$(platform)-$(APPVEYOR_REPO_COMMIT_TIMESTAMP)
+    description: 'OpenHantek Windows Build (ZIP)'    
     draft: false
     prerelease: false
     force_update: true
     auth_token:
-      secure: o0pVKA7i8FmUbuK7uB0jpmrqruptxHCgd0PCHdz8uLW2HQ6DOn9xiO6UTo6f+eD+
+      secure: p5VWPfJhLhTNBBjEGnJaSbbhtFSjlWRZRABrrXbuPeo62x8iN1YpU8jah4hnSYlg
     on:
       branch: master                # release from master branch only
 #      appveyor_repo_tag: true       # deploy on tag push only
