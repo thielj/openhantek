@@ -13,12 +13,14 @@ skip_tags: true
 
 platform:
   - x64
+  - x86
 
 configuration:
   - Release
+  - Debug
 
 matrix:
-  fast_finish: true
+  fast_finish: false
 
 clone_folder: C:\projects\openhantek
 
@@ -32,11 +34,14 @@ shallow_clone: true
 
 before_build:
   - if [%PLATFORM%] == [x64] set QT5=C:\Qt\5.8\msvc2015_64
-  - if [%PLATFORM%] == [x64] set VSARCH=x86
+  - if [%PLATFORM%] == [x64] set VSARCH=x64
   - if [%PLATFORM%] == [x64] set "CMAKE_GENERATOR_NAME=Visual Studio 14 2015 Win64"
   - if [%PLATFORM%] == [Win32] set QT5=C:\Qt\5.8\msvc2015
-  - if [%PLATFORM%] == [Win32] set VSARCH=x64
+  - if [%PLATFORM%] == [Win32] set VSARCH=x86
   - if [%PLATFORM%] == [Win32] set "CMAKE_GENERATOR_NAME=Visual Studio 14 2015"
+  - if [%PLATFORM%] == [x86] set QT5=C:\Qt\5.8\msvc2015
+  - if [%PLATFORM%] == [x86] set VSARCH=x86
+  - if [%PLATFORM%] == [x86] set "CMAKE_GENERATOR_NAME=Visual Studio 14 2015"
   - set Path=%QT5%\bin;%Path%
   - md build
   - cd build
@@ -46,12 +51,12 @@ before_build:
 build:
 
 build_script:
-  - cmake --build . --config Release --target package
+  - cmake --build . --config %configuration% --target package
 
 artifacts:
 
   - path: build\openhantek\$(configuration)
-    name: OpenHantek_jt-$(platform)-b$(APPVEYOR_BUILD_NUMBER)
+    name: OpenHantek_jt-$(platform)-$(configuration)-b$(APPVEYOR_BUILD_NUMBER)
     type: zip
 
   - path: build\packages\*.exe
@@ -60,8 +65,8 @@ artifacts:
 # User "ci-openhantek". Uses a appveyor encrypted github access token for that user.
 deploy:
   - provider: GitHub
-    artifact: OpenHantek_jt-$(platform)-b$(APPVEYOR_BUILD_NUMBER)
-    release: OpenHantek_jt-$(platform)-b$(APPVEYOR_BUILD_NUMBER)
+    artifact: OpenHantek_jt-$(platform)-$(configuration)-b$(APPVEYOR_BUILD_NUMBER)
+    release: OpenHantek_jt-b$(APPVEYOR_BUILD_NUMBER)
     description: 'OpenHantek Windows Build (ZIP)'    
     draft: false
     prerelease: false
