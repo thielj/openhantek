@@ -25,7 +25,7 @@ OpenHantek is a free software for Hantek and compatible (Voltcraft/Darkwire/Prot
   This allows a minimum window size of 640*480 for old workstation computers.
 
 ## Install prebuilt binary
-Navigate to the [Releases](https://github.com/OpenHantek/openhantek/releases) page 
+Navigate to the [Releases](releases) page 
 
 ## Building OpenHantek from source
 You need the following software, to build OpenHantek from source:
